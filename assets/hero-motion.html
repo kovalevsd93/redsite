@@ -1,0 +1,161 @@
+<!-- Динамичный первый экран /child: наезд камеры, полоса сканирования, параллакс, «дыхание» окна W/L -->
+<style>
+#redx .hero-inner{position:relative;z-index:1}
+#redx .hero-top,#redx .hero-bottom{z-index:2}
+#redx .hero-bg{will-change:transform;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+#redx .hero-bg img{transform-origin:55% 45%;
+  animation:rx-kb 28s ease-in-out infinite alternate, rx-wl 9s ease-in-out infinite alternate}
+@keyframes rx-kb{0%{transform:scale(1.06) translate3d(-1.2%,.8%,0)}100%{transform:scale(1.16) translate3d(1.4%,-1.2%,0)}}
+@keyframes rx-wl{0%{filter:grayscale(1) contrast(1.0) brightness(.5)}100%{filter:grayscale(1) contrast(1.18) brightness(.72)}}
+/* полоса сканирования */
+#redx .rx-scan{position:absolute;left:0;right:0;top:-30%;height:30%;z-index:0;pointer-events:none;mix-blend-mode:screen;
+  background:linear-gradient(180deg,transparent 0%,rgba(255,150,60,.05) 40%,rgba(255,170,90,.16) 50%,rgba(255,150,60,.05) 60%,transparent 100%);
+  animation:rx-scan 9s cubic-bezier(.45,0,.25,1) infinite}
+#redx .rx-scan::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(255,170,90,.75);
+  box-shadow:0 0 12px 2px rgba(255,138,31,.55),0 0 40px 8px rgba(255,138,31,.18)}
+@keyframes rx-scan{0%{top:-30%;opacity:0}8%{opacity:1}62%{opacity:1}72%{top:105%;opacity:0}100%{top:105%;opacity:0}}
+/* сетка-разметка как в окне просмотрщика, едва заметная */
+#redx .rx-grid{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.07;
+  background-image:linear-gradient(rgba(255,236,214,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,236,214,1) 1px,transparent 1px);
+  background-size:80px 80px;-webkit-mask-image:radial-gradient(60% 60% at 50% 50%,#000,transparent);mask-image:radial-gradient(60% 60% at 50% 50%,#000,transparent)}
+/* перекрестие курсора-измерителя */
+#redx .rx-cross{position:absolute;z-index:0;width:120px;height:120px;margin:-60px 0 0 -60px;left:50%;top:50%;pointer-events:none;opacity:0;transition:opacity .4s}
+#redx .hero:hover .rx-cross{opacity:.55}
+#redx .rx-cross::before,#redx .rx-cross::after{content:"";position:absolute;background:rgba(255,170,90,.8)}
+#redx .rx-cross::before{left:50%;top:0;bottom:0;width:1px}
+#redx .rx-cross::after{top:50%;left:0;right:0;height:1px}
+#redx .rx-cross i{position:absolute;inset:38px;border:1px solid rgba(255,170,90,.8);border-radius:50%}
+#redx .rx-cross b{position:absolute;left:68px;top:66px;font:400 10px/1 "PT Mono",monospace;letter-spacing:.08em;color:rgba(255,200,150,.9);white-space:nowrap}
+/* ползунок W/L ходит синхронно с яркостью снимка */
+#redx .tag .bar::after{animation:rx-wlbar 9s ease-in-out infinite alternate}
+@keyframes rx-wlbar{0%{left:38%}100%{left:72%}}
+@media(prefers-reduced-motion:reduce){#redx .hero-bg img,#redx .rx-scan,#redx .tag .bar::after{animation:none}#redx .rx-scan,#redx .rx-cross{display:none}}
+@media(hover:none){#redx .rx-cross{display:none}}
+</style>
+<script>
+(function(){
+  var hero=document.querySelector('#redx .hero'); if(!hero) return;
+  var bg=hero.querySelector('.hero-bg');
+  ['rx-grid','rx-scan'].forEach(function(c){var d=document.createElement('div');d.className=c;hero.insertBefore(d,bg.nextSibling)});
+  var cross=document.createElement('div');cross.className='rx-cross';cross.innerHTML='<i></i><b></b>';hero.appendChild(cross);
+  var label=cross.querySelector('b');
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var mx=0,my=0,sy=0,raf=null;
+  function apply(){raf=null;bg.style.transform='translate3d('+(mx*-14)+'px,'+(my*-10+sy*0.28)+'px,0) scale(1.04)'}
+  function req(){if(!raf)raf=requestAnimationFrame(apply)}
+  hero.addEventListener('mousemove',function(e){
+    var r=hero.getBoundingClientRect();
+    mx=(e.clientX-r.left)/r.width-.5; my=(e.clientY-r.top)/r.height-.5;
+    cross.style.left=(e.clientX-r.left)+'px'; cross.style.top=(e.clientY-r.top)+'px';
+    var hu=Math.round(-200+((e.clientX-r.left)/r.width)*1400);
+    label.textContent='HU '+(hu>0?'+':'')+hu+' · '+Math.round((e.clientX-r.left)/r.width*512)+'×'+Math.round((e.clientY-r.top)/r.height*512);
+    req();
+  });
+  hero.addEventListener('mouseleave',function(){mx=0;my=0;req()});
+  window.addEventListener('scroll',function(){var h=hero.offsetHeight;sy=Math.min(window.scrollY,h);req()},{passive:true});
+  apply();
+})();
+</script>
+
+<!-- Блок «Курс поможет, если»: оранжевая подсветка переезжает на карточку под курсором -->
+<style>
+#redx .card.hl{position:relative;isolation:isolate}
+#redx .card.hl::before{content:"";position:absolute;inset:-1px;z-index:-1;pointer-events:none;
+  background:linear-gradient(165deg,#C25E14 0%,#3A2410 55%,var(--red-deep) 100%);opacity:0;transition:opacity .45s ease}
+#redx .card.hl.hot::before{opacity:1}
+#redx .card.hl.hot{border-color:transparent}
+#redx .card.hl p,#redx .card.hl .kicker{transition:color .45s ease}
+#redx .card.hl.hot p,#redx .card.hl.hot .kicker{color:rgba(255,255,255,.86)}
+</style>
+<script>
+(function(){
+  document.querySelectorAll('#redx .grid').forEach(function(g){
+    var cards=[].filter.call(g.children,function(c){return c.classList.contains('card')&&!c.classList.contains('plan')});
+    var def=cards.filter(function(c){return c.classList.contains('card--red')})[0];
+    if(!def||cards.length<2) return;
+    def.classList.remove('card--red');
+    cards.forEach(function(c){
+      c.classList.add('hl');
+      c.addEventListener('mouseenter',function(){cards.forEach(function(x){x.classList.toggle('hot',x===c)})});
+    });
+    def.classList.add('hot');
+    g.addEventListener('mouseleave',function(){cards.forEach(function(x){x.classList.toggle('hot',x===def)})});
+  });
+})();
+</script>
+
+<!-- Блок «От автора»: фото и текст в одной карточке; на телефоне фото — небольшой портрет рядом с именем -->
+<style>
+#redx .author{grid-template-columns:minmax(220px,320px) minmax(0,1fr);gap:clamp(24px,4vw,56px);
+  border:1px solid var(--line);background:var(--ink-2);padding:clamp(20px,3vw,40px)}
+#redx .author > .rv:first-child{position:sticky;top:96px}
+#redx .author .media{aspect-ratio:1/1;width:100%;max-width:320px}
+#redx .author .cap{flex-direction:column;align-items:flex-start;gap:8px;padding:16px 0 0}
+#redx .author .name{font-size:clamp(1.3rem,2vw,1.7rem)}
+@media(max-width:960px){
+  #redx .author{grid-template-columns:1fr;gap:22px}
+  #redx .author > .rv:first-child{position:static;display:flex;align-items:center;gap:18px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+  #redx .author .media{width:104px;height:104px;max-width:none;flex:none;border-radius:50%;border-color:var(--line-strong)}
+  #redx .author .media::after{border-radius:50%}
+  #redx .author .cap{padding:0}
+}
+</style>
+<style>
+@media(min-width:961px){
+  #redx .author{grid-template-columns:minmax(200px,250px) minmax(0,1fr);align-items:stretch}
+  #redx .author > .rv:first-child{position:static;display:flex;flex-direction:column}
+  #redx .author .media{flex:1;aspect-ratio:auto;max-width:none;min-height:180px;position:relative;overflow:hidden}
+  #redx .author .media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  #redx .author .story{justify-content:center;gap:22px;padding-left:clamp(24px,3.5vw,56px);border-left:1px solid var(--line-strong,var(--line));font-size:clamp(1.05rem,1.5vw,1.2rem)}
+  #redx .author .story .big{font-size:clamp(1.3rem,2.1vw,1.75rem);padding-right:clamp(48px,6vw,88px)}
+  #redx .author .story{max-width:640px}
+}
+/* прямая речь автора: большая кавычка-акцент над текстом */
+#redx .author .story{position:relative}
+#redx .author .story::before{content:"\201D";position:absolute;right:0;top:-.12em;font-family:Georgia,"Times New Roman",serif;font-size:clamp(5rem,9vw,8rem);line-height:1;color:var(--red);opacity:.22;pointer-events:none}
+#redx .author .exp{font-size:.95rem;color:var(--muted);line-height:1.35}
+#redx .author .exp b{color:var(--text);font-weight:700}
+</style>
+
+<!-- Светлая тема страницы курса (переключатель луна/солнце в шапке). Первый экран со снимком остаётся тёмным. -->
+<style>
+:root[data-theme="light"] #redx{--ink:#FFFFFF;--ink-2:#FAFAFA;--ink-3:#F2F2F2;--line:rgba(0,0,0,.09);--line-strong:rgba(0,0,0,.18);
+  --text:#141414;--muted:#7A7A7A;--red:#E86A00;--red-hi:#FF7E12;--red-deep:#C25E14;background:#FFFFFF;color:var(--text)}
+:root[data-theme="light"] #redx::before{display:none}
+/* первый экран — тёмный, как на главной */
+:root[data-theme="light"] #redx .hero{--ink:#0F0E0D;--text:#F3EEE8;--muted:#948A80;--line:rgba(255,236,214,.12);--line-strong:rgba(255,236,214,.26);--red:#FF8A1F;--red-hi:#FFA54D;color:#F3EEE8}
+:root[data-theme="light"] #redx .hero .btn:not(.btn--red){color:#F3EEE8;border-color:rgba(255,236,214,.35)}
+/* жёстко заданные цвета тёмной темы */
+:root[data-theme="light"] #redx .lead,
+:root[data-theme="light"] #redx .author .story,
+:root[data-theme="light"] #redx .lessons li,
+:root[data-theme="light"] #redx .quote p{color:#3A3A3A}
+:root[data-theme="light"] #redx .hero .lead{color:#E6DED5}
+:root[data-theme="light"] #redx .author .story .big{color:#141414}
+:root[data-theme="light"] #redx .btn--red{color:#FFFFFF}
+:root[data-theme="light"] #redx .btn--red:hover{color:#FFFFFF}
+:root[data-theme="light"] #redx .btn--solid{background:#141414;border-color:#141414;color:#FFFFFF}
+:root[data-theme="light"] #redx .btn--solid:hover{background:transparent;color:#141414;border-color:#141414}
+:root[data-theme="light"] #redx .media,:root[data-theme="light"] #redx .shot{background:#F2F2F2}
+:root[data-theme="light"] #redx .feat li.off,:root[data-theme="light"] #redx .feat li.off::before{color:#ABABAB}
+:root[data-theme="light"] #redx .card{box-shadow:0 1px 0 rgba(0,0,0,.02)}
+:root[data-theme="light"] #redx .card:hover{border-color:#E86A00}
+:root[data-theme="light"] #redx .row summary:hover{background:linear-gradient(90deg,rgba(232,106,0,.08),transparent)}
+:root[data-theme="light"] #redx .row[open]{background:linear-gradient(90deg,rgba(232,106,0,.05),transparent)}
+:root[data-theme="light"] #redx .ladder li.now{background:rgba(232,106,0,.08)}
+/* оранжевые карточки (тариф «Практик», подсвеченная карточка) — сплошной оранжевый с белым текстом */
+:root[data-theme="light"] #redx .card--red,
+:root[data-theme="light"] #redx .card.hl::before{background:linear-gradient(165deg,#FF8A1F 0%,#E86A00 55%,#C25E14 100%)}
+:root[data-theme="light"] #redx .card--red,:root[data-theme="light"] #redx .card.hl.hot{color:#FFFFFF}
+:root[data-theme="light"] #redx .card--red h3,:root[data-theme="light"] #redx .card.hl.hot h3,
+:root[data-theme="light"] #redx .card--red .price,:root[data-theme="light"] #redx .card--red li{color:#FFFFFF}
+:root[data-theme="light"] #redx .card--red .btn--solid{background:#FFFFFF;border-color:#FFFFFF;color:#141414}
+:root[data-theme="light"] #redx .card.hl.hot .num{border-color:rgba(255,255,255,.6);color:#FFFFFF}
+/* карусель отзывов и стрелки */
+:root[data-theme="light"] #redx .qs-nav{--line-strong:rgba(0,0,0,.18);--text:#141414;--muted:#7A7A7A;--acc:#E86A00;--acc-ink:#FFFFFF}
+</style>
+<style>
+/* заголовки: запас по высоте строки, чтобы «Й», «Ё» и прописные не наезжали на строку выше */
+#redx .display{line-height:1.08}
+#redx .h2{line-height:1.06}
+</style>
