@@ -114,6 +114,8 @@
 #redx .lessons{padding-left:70px}
 @media(max-width:760px){#redx .lessons{padding-left:70px}}
 @media(max-width:620px){#redx .lessons{padding-left:34px}}
+/* на телефоне :hover «залипает» после касания и сдвигает название — отключаем сдвиг */
+@media(max-width:760px),(hover:none){#redx .row summary:hover{padding-inline:4px;background:none}}
 /* прямая речь автора: большая кавычка-акцент над текстом */
 #redx .author .story{position:relative}
 #redx .author .story::before{content:"\201D";position:absolute;right:0;top:-.12em;font-family:Georgia,"Times New Roman",serif;font-size:clamp(5rem,9vw,8rem);line-height:1;color:var(--red);opacity:.22;pointer-events:none}
@@ -170,6 +172,7 @@
   #redx .hero-bg{transform:none!important;will-change:auto;position:relative;inset:auto;z-index:1;order:0;overflow:hidden;
     width:calc(100% - 2*var(--pad,16px) - 16px);margin:6px auto 0;aspect-ratio:16/10;background:#050505;
     box-shadow:0 0 0 7px #15120f,0 0 0 8px var(--line-strong),0 24px 48px rgba(0,0,0,.55)}
+  #redx .hero-bg::after{display:none}
   #redx .hero-bg img{animation:none!important;transform:none!important;object-fit:cover;object-position:50% 40%!important;
     filter:grayscale(1) contrast(1.12) brightness(.95)!important}
   #redx .hero-bg::before{content:"";position:absolute;left:0;right:0;top:0;height:24%;z-index:2;pointer-events:none;
