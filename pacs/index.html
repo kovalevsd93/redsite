@@ -6,8 +6,8 @@
 <title>Практические кейсы по нейро и костям | Радиология РЕД</title>
 <meta name="description" content="">
 <script>try{if(localStorage.getItem('red-theme')==='light')document.documentElement.setAttribute('data-theme','light')}catch(e){}document.documentElement.classList.add('js')</script>
-<link rel="stylesheet" href="/redsite/assets/red.css?v=1792227492">
-<link rel="stylesheet" href="/redsite/assets/header.css?v=1792227492">
+<link rel="stylesheet" href="/redsite/assets/red.css?v=1792227769">
+<link rel="stylesheet" href="/redsite/assets/header.css?v=1792227769">
 
 </head>
 <body>
@@ -347,7 +347,7 @@
     <div class="wrap hero-top"><span class="tag">Практика · нейро и грудная клетка у детей · <b>КТ · МРТ</b></span><span class="tag">Авторы · <b>И. Ярмола, М. Малахов</b></span></div>
     <div class="wrap hero-inner">
       <div class="eyebrow rv"><span class="dot"></span>Онлайн-курс · Радиология РЕД</div>
-      <h1 class="display rv"><span class="l1">Практические кейсы</span><br><span class="red">нейро и грудная клетка</span></h1>
+      <h1 class="display rv"><span class="l1">Кейсы по нейро</span><br><span class="red">и грудной клетке</span></h1>
       <p class="lead rv">Наборы реальных кейсов из практики с теоретической частью. Можно купить набор целиком или по отдельности.</p>
       <div class="start rv">от <b>4 900 ₽</b></div>
       <div class="hero-cta rv">
@@ -457,7 +457,7 @@
   ['rx-grid','rx-scan'].forEach(function(c){var d=document.createElement('div');d.className=c;hero.insertBefore(d,bg.nextSibling)});
   var cross=document.createElement('div');cross.className='rx-cross';cross.innerHTML='<i></i><b></b>';hero.appendChild(cross);
   var label=cross.querySelector('b');
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||window.matchMedia('(max-width:760px)').matches) return;
   var mx=0,my=0,sy=0,raf=null;
   function apply(){raf=null;bg.style.transform='translate3d('+(mx*-14)+'px,'+(my*-10+sy*0.28)+'px,0) scale(1.04)'}
   function req(){if(!raf)raf=requestAnimationFrame(apply)}
@@ -585,7 +585,7 @@
 /* Телефон: снимок выносим из фона в «монитор» над заголовком — виден целиком, оранжевая полоса сканирует экран */
 @media(max-width:760px){
   #redx .hero{justify-content:flex-start;min-height:0;padding-block:22px 40px}
-  #redx .hero-bg{position:relative;inset:auto;z-index:1;order:0;overflow:hidden;
+  #redx .hero-bg{transform:none!important;will-change:auto;position:relative;inset:auto;z-index:1;order:0;overflow:hidden;
     width:calc(100% - 2*var(--pad,16px) - 16px);margin:6px auto 0;aspect-ratio:16/10;background:#050505;
     box-shadow:0 0 0 7px #15120f,0 0 0 8px var(--line-strong),0 24px 48px rgba(0,0,0,.55)}
   #redx .hero-bg img{animation:none!important;transform:none!important;object-fit:cover;object-position:50% 40%!important;
@@ -596,6 +596,7 @@
   @keyframes rx-mscan{0%{transform:translateY(-100%)}75%,100%{transform:translateY(420%)}}
   #redx .hero .rx-scan,#redx .hero .rx-cross{display:none}
   #redx .hero-inner{order:1;margin-top:30px}
+  #redx .hero h1.display{font-size:clamp(1.5rem,7.4vw,2rem)}
   #redx .hero-bottom{position:static;order:2;margin-top:28px}
 }
 </style>
@@ -637,7 +638,7 @@
   </div>
 </footer>
 <div class="modal" id="pay" role="dialog" aria-modal="true" aria-label="Оплата"><div class="modal__box"><button class="modal__x" type="button" aria-label="Закрыть">×</button><div class="modal__note">Оплата через школу Р.ЕД</div><div class="modal__body"></div></div></div>
-<script src="/redsite/assets/widgets.js?v=1792227492"></script>
-<script src="/redsite/assets/red.js?v=1792227492"></script>
+<script src="/redsite/assets/widgets.js?v=1792227769"></script>
+<script src="/redsite/assets/red.js?v=1792227769"></script>
 </body>
 </html>
