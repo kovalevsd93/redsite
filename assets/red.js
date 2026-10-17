@@ -125,7 +125,7 @@
     f.src='https://www.youtube.com/embed/'+y.getAttribute('data-yt')+'?autoplay=1&rel=0&playsinline=1';
     f.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';f.allowFullscreen=true;
     f.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0';
-    y.style.backgroundImage='none';y.classList.add('is-playing');y.removeAttribute('href');y.removeAttribute('data-yt');y.appendChild(f);
+    y.style.backgroundImage='none';y.classList.add('is-playing');[].forEach.call(y.querySelectorAll('[class^="yt__"]'),function(n){n.remove()});y.removeAttribute('href');y.removeAttribute('data-yt');y.appendChild(f);
   });
   if(location.hash.indexOf('#g-')===0){var g=document.getElementById(location.hash.slice(1));if(g){g.style.borderColor='var(--acc)'}}
 
@@ -216,3 +216,12 @@ window.addEventListener('message',function(e){
   });
   document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
 })();
+
+/* обложка → плеер (VK, Kinescope и др.) */
+document.addEventListener('click',function(e){
+  var b=e.target.closest('.vc[data-embed]');if(!b)return;
+  var u=b.getAttribute('data-embed');u+=(u.indexOf('?')>-1?'&':'?')+'autoplay=1';
+  var f=document.createElement('iframe');f.src=u;f.allow='autoplay; fullscreen; picture-in-picture; encrypted-media; clipboard-write';f.allowFullscreen=true;
+  f.title=b.getAttribute('aria-label')||'Видео';
+  b.parentNode.replaceChild(f,b);
+});

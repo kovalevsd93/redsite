@@ -155,3 +155,4 @@
 /* текущий раздел, когда его меню раскрыто: тёмный текст на оранжевой плашке */
 .rm-link.cur[aria-expanded="true"]{color:var(--acc-ink)}
 .rm-cols:has(>div:only-child){grid-template-columns:1fr}
+a.rm-link:hover,a.rm-link:focus-visible,a.rm-link.cur:hover{color:var(--acc-ink);background:var(--acc)}
