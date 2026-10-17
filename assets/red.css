@@ -287,16 +287,16 @@ a.freec:hover .freec__ic{transform:none}
 a.card .yt{pointer-events:none}
 
 /* лесенка «кому подойдут курсы» */
-.ladder{position:relative;display:grid;grid-template-columns:repeat(var(--n,4),1fr);gap:14px;align-items:end;padding-top:8px}
-.step{position:relative;z-index:1;display:flex;flex-direction:column;gap:8px;justify-content:flex-end;padding:20px 22px;border:1px solid var(--line);border-bottom:2px solid var(--acc);background:linear-gradient(var(--field),var(--field)),var(--ink);min-height:calc(130px + var(--i)*58px);transition:border-color .2s,background .2s}
-.step:hover{border-color:var(--acc);background:linear-gradient(var(--acc-soft),var(--acc-soft)),var(--ink)}
-.step:last-child{border-style:dashed;border-bottom-style:solid}
-.step__n{font-family:var(--mono);font-size:.78rem;color:var(--acc);letter-spacing:.1em}
-.step__k{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.step__t{font-weight:700;font-size:clamp(1rem,1.5vw,1.3rem);line-height:1.2}
-.ladder__line{z-index:0;position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
-.ladder__line polyline{fill:none;stroke:var(--acc);stroke-width:1.5;stroke-dasharray:3 6;opacity:.8}
-@media(max-width:900px){.ladder{grid-template-columns:1fr;gap:10px}.step{min-height:0;margin-left:0;width:calc(66% + var(--i)*11%)}.ladder__line{display:none}}
+.career{position:relative;display:grid;grid-template-columns:repeat(var(--n,4),1fr);gap:14px;align-items:end;padding-top:8px}
+.career__step{position:relative;z-index:1;display:flex;flex-direction:column;gap:8px;justify-content:flex-end;padding:20px 22px;border:1px solid var(--line);border-bottom:2px solid var(--acc);background:linear-gradient(var(--field),var(--field)),var(--ink);min-height:calc(130px + var(--i)*58px);transition:border-color .2s,background .2s}
+.career__step:hover{border-color:var(--acc);background:linear-gradient(var(--acc-soft),var(--acc-soft)),var(--ink)}
+.career__step:last-child{border-style:dashed;border-bottom-style:solid}
+.career__step__n{font-family:var(--mono);font-size:.78rem;color:var(--acc);letter-spacing:.1em}
+.career__step__k{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.career__step__t{font-weight:700;font-size:clamp(1rem,1.5vw,1.3rem);line-height:1.2}
+.career__line{z-index:0;position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.career__line polyline{fill:none;stroke:var(--acc);stroke-width:1.5;stroke-dasharray:3 6;opacity:.8}
+@media(max-width:900px){.career{grid-template-columns:1fr;gap:10px}.career__step{min-height:0;margin-left:0;width:calc(66% + var(--i)*11%)}.career__line{display:none}}
 
 /* «Наш подход» — карточки с линейной иллюстрацией */
 .appr{padding-top:26px}
