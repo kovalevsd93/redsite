@@ -296,7 +296,7 @@ a.card .yt{pointer-events:none}
 .step__t{font-weight:700;font-size:clamp(1rem,1.5vw,1.3rem);line-height:1.2}
 .ladder__line{z-index:0;position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
 .ladder__line polyline{fill:none;stroke:var(--acc);stroke-width:1.5;stroke-dasharray:3 6;opacity:.8}
-@media(max-width:900px){.ladder{grid-template-columns:1fr;gap:10px}.step{min-height:0;margin-left:calc(var(--i)*18px)}.ladder__line{display:none}}
+@media(max-width:900px){.ladder{grid-template-columns:1fr;gap:10px}.step{min-height:0;margin-left:0;width:calc(66% + var(--i)*11%)}.ladder__line{display:none}}
 
 /* «Наш подход» — карточки с линейной иллюстрацией */
 .appr{padding-top:26px}
@@ -320,3 +320,6 @@ a.card .yt{pointer-events:none}
 
 .yt.is-playing::after{display:none}
 .yt.is-playing{cursor:auto}
+.sec__head{align-items:center}
+.sec__head:has(.lead){align-items:flex-end}
+@media(max-width:760px){.sec__head{flex-wrap:nowrap;gap:12px}.sec__head .btn{white-space:nowrap;flex:none;padding-left:18px;padding-right:18px}.sec__head h2{min-width:0}}

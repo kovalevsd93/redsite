@@ -6,8 +6,8 @@
 <title>Практические кейсы по нейро и костям | Радиология РЕД</title>
 <meta name="description" content="">
 <script>try{if(localStorage.getItem('red-theme')==='light')document.documentElement.setAttribute('data-theme','light')}catch(e){}document.documentElement.classList.add('js')</script>
-<link rel="stylesheet" href="/redsite/assets/red.css?v=1792226129">
-<link rel="stylesheet" href="/redsite/assets/header.css?v=1792226129">
+<link rel="stylesheet" href="/redsite/assets/red.css?v=1792227492">
+<link rel="stylesheet" href="/redsite/assets/header.css?v=1792227492">
 
 </head>
 <body>
@@ -528,9 +528,14 @@
   #redx .author .story .big{font-size:clamp(1.3rem,2.1vw,1.75rem);padding-right:clamp(48px,6vw,88px)}
   #redx .author .story{max-width:640px}
 }
+/* пункты программы: текст начинается там же, где название раздела (индекс 64px + отступ 20px + поля 4px − отступ маркера 18px) */
+#redx .lessons{padding-left:70px}
+@media(max-width:760px){#redx .lessons{padding-left:70px}}
+@media(max-width:620px){#redx .lessons{padding-left:34px}}
 /* прямая речь автора: большая кавычка-акцент над текстом */
 #redx .author .story{position:relative}
 #redx .author .story::before{content:"\201D";position:absolute;right:0;top:-.12em;font-family:Georgia,"Times New Roman",serif;font-size:clamp(5rem,9vw,8rem);line-height:1;color:var(--red);opacity:.22;pointer-events:none}
+@media(max-width:960px){#redx .author .story::before{display:none}}
 #redx .author .exp{font-size:.95rem;color:var(--muted);line-height:1.35}
 #redx .author .exp b{color:var(--text);font-weight:700}
 </style>
@@ -576,6 +581,23 @@
 /* заголовки: запас по высоте строки, чтобы «Й», «Ё» и прописные не наезжали на строку выше */
 #redx .display{line-height:1.08}
 #redx .h2{line-height:1.06}
+
+/* Телефон: снимок выносим из фона в «монитор» над заголовком — виден целиком, оранжевая полоса сканирует экран */
+@media(max-width:760px){
+  #redx .hero{justify-content:flex-start;min-height:0;padding-block:22px 40px}
+  #redx .hero-bg{position:relative;inset:auto;z-index:1;order:0;overflow:hidden;
+    width:calc(100% - 2*var(--pad,16px) - 16px);margin:6px auto 0;aspect-ratio:16/10;background:#050505;
+    box-shadow:0 0 0 7px #15120f,0 0 0 8px var(--line-strong),0 24px 48px rgba(0,0,0,.55)}
+  #redx .hero-bg img{animation:none!important;transform:none!important;object-fit:cover;object-position:50% 40%!important;
+    filter:grayscale(1) contrast(1.12) brightness(.95)!important}
+  #redx .hero-bg::before{content:"";position:absolute;left:0;right:0;top:0;height:24%;z-index:2;pointer-events:none;
+    background:linear-gradient(180deg,transparent,rgba(255,170,90,.2) 85%,rgba(255,170,90,.5));
+    border-bottom:1px solid rgba(255,170,90,.95);transform:translateY(-100%);animation:rx-mscan 5s cubic-bezier(.45,0,.25,1) infinite}
+  @keyframes rx-mscan{0%{transform:translateY(-100%)}75%,100%{transform:translateY(420%)}}
+  #redx .hero .rx-scan,#redx .hero .rx-cross{display:none}
+  #redx .hero-inner{order:1;margin-top:30px}
+  #redx .hero-bottom{position:static;order:2;margin-top:28px}
+}
 </style>
 <section class="sec" id="redx-author"><div class="wrap rv"><div class="sec__head"><div><h2 class="h2">Авторы</h2></div></div><div class="grid" style="--min:420px"><div class="card person"><div class="person__ph"><img src="https://static.tildacdn.com/tild3739-3964-4831-b863-333666633030/photo.jpg" alt="Ярмола Игорь Игоревич" loading="lazy"></div><div><div class="card__t">Ярмола Игорь Игоревич</div><div class="card__p" style="margin-top:8px">Я окончил ПМГМУ им. Сеченова и прошел ординатуру в РМАНПО. В рентгенологии я работаю более 9 лет...</div><button type="button" class="bio-btn" data-bio>Подробнее</button><div class="bio-src" hidden><h3>Ярмола Игорь Игоревич</h3><div class="prose"><p>Я окончил ПМГМУ им. Сеченова и прошел ординатуру в РМАНПО. В рентгенологии я работаю более 10 лет, и за это время успел накопить богатый опыт в различных областях лучевой диагностики.</p>
 <p>Мой путь в рентгенологию начался случайно, но по мере обучения я начал осознавать, насколько это увлекательно и важно для постановки диагноза, а значит и для лечения.</p>
@@ -615,7 +637,7 @@
   </div>
 </footer>
 <div class="modal" id="pay" role="dialog" aria-modal="true" aria-label="Оплата"><div class="modal__box"><button class="modal__x" type="button" aria-label="Закрыть">×</button><div class="modal__note">Оплата через школу Р.ЕД</div><div class="modal__body"></div></div></div>
-<script src="/redsite/assets/widgets.js?v=1792226129"></script>
-<script src="/redsite/assets/red.js?v=1792226129"></script>
+<script src="/redsite/assets/widgets.js?v=1792227492"></script>
+<script src="/redsite/assets/red.js?v=1792227492"></script>
 </body>
 </html>
